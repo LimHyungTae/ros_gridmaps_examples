@@ -31,8 +31,8 @@ int main(int argc, char **argv)
     float max_range_x = 500.0;
     float max_range_y = 500.0;
     float resolution = 0.2;
-    float pos_x = 0.0;
-    float pos_y = 0.0;
+    float pos_x = 1.0;
+    float pos_y = 1.0;
     int width = int(max_range_x / resolution);
     int height = int(max_range_y / resolution);
     nav_msgs::OccupancyGrid gridmap;
@@ -60,6 +60,13 @@ int main(int argc, char **argv)
             gridmap.data.at(x + w * y) = ttmpdata;
         }
     }
+
+    gridmap.data.at(200) = 0;
+    gridmap.data.at(201) = 0;
+    gridmap.data.at(202) = 0;
+    gridmap.data.at(203) = 0;
+    gridmap.data.at(204) = 0;
+
     while (ros::ok()) {
         MapPublisher.publish(gridmap);
         ros::spinOnce();
