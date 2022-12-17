@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>occugrid_example</name>
+  <name>gridmaps_examples</name>
   <version>0.0.0</version>
-  <description>The occugrid_example package</description>
+  <description>Examples of Grid maps package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
