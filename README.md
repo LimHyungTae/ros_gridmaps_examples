@@ -22,3 +22,5 @@ Visualization is quite weird!
 The each corner denotes the xy-location, so if the grid size is `w` x `h`, then `w-1` and `h-1` tiles are visualized along the X and Y directions, respectively.
 
 
+
+![img](materials/gridmap_actual.png)

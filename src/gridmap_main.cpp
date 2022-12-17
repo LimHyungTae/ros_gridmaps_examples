@@ -21,9 +21,10 @@ int main(int argc, char** argv)
     // Create grid map.
     GridMap map({"elevation", "steppable"});
     map.setFrameId("map");
-    float x_size = 1.0;
-    float y_size = 1.4;
-    map.setGeometry(Length(x_size, y_size), 0.2);
+    float x_size = 1.2;
+    float y_size = 1.6;
+    float resolution = 0.2;
+    map.setGeometry(Length(x_size, y_size), resolution);
     map["elevation"].setConstant(0);
     map["steppable"].setConstant(-1);
     map.setPosition(Position(x_size / 2, y_size / 2));
