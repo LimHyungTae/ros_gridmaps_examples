@@ -8,6 +8,11 @@ gridmap should be installed: http://wiki.ros.org/grid_map
 
 ![img](materials/occu_grid_api.png)
 
+Data are **discrete!!**.
+
+data -> 0: Free
+data -> 100: Occupied
+
 ## API of Occupancy grid map
 
 ![img](materials/gridmap_v2.png)
