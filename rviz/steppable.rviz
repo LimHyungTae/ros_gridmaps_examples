@@ -5,6 +5,8 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /GridMap1
+        - /Grid1
+        - /GridMap2
       Splitter Ratio: 0.6114649772644043
     Tree Height: 768
   - Class: rviz/Selection
@@ -42,7 +44,7 @@ Visualization Manager:
       Show Trail: false
       Value: true
     - Alpha: 1
-      Autocompute Intensity Bounds: true
+      Autocompute Intensity Bounds: false
       Class: grid_map_rviz_plugin/GridMap
       Color: 200; 200; 200
       Color Layer: steppable
@@ -59,6 +61,45 @@ Visualization Manager:
       Name: GridMap
       Show Grid Lines: true
       Topic: /grid_map_simple_demo/grid_map
+      Unreliable: false
+      Use Rainbow: true
+      Value: true
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.029999999329447746
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: false
+      Class: grid_map_rviz_plugin/GridMap
+      Color: 200; 200; 200
+      Color Layer: steppable
+      Color Transformer: IntensityLayer
+      Enabled: true
+      Height Layer: elevation
+      Height Transformer: Flat
+      History Length: 1
+      Invert Rainbow: true
+      Max Color: 255; 255; 255
+      Max Intensity: 3
+      Min Color: 0; 0; 0
+      Min Intensity: -2
+      Name: GridMap
+      Show Grid Lines: true
+      Topic: /grid_map_simple_demo/grid_map_transformed
       Unreliable: false
       Use Rainbow: true
       Value: true
@@ -90,7 +131,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 2.5886390209198
+      Distance: 6.07032585144043
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -98,9 +139,9 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 0.5728165507316589
-        Y: 0.6878215074539185
-        Z: 0.0005323709920048714
+        X: 2.665769338607788
+        Y: 1.981907606124878
+        Z: -0.5217077136039734
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -108,7 +149,7 @@ Visualization Manager:
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
-      Yaw: 4.713578224182129
+      Yaw: 4.728579998016357
     Saved: ~
 Window Geometry:
   Displays:

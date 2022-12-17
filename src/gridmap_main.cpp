@@ -17,6 +17,7 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "grid_map_simple_demo");
     ros::NodeHandle nh("~");
     ros::Publisher publisher = nh.advertise<grid_map_msgs::GridMap>("grid_map", 1, true);
+    ros::Publisher TransformedPublisher = nh.advertise<grid_map_msgs::GridMap>("grid_map_transformed", 1, true);
 
     // Create grid map.
     GridMap map({"elevation", "steppable"});
@@ -34,6 +35,7 @@ int main(int argc, char** argv)
 
     int count = 0;
     Position position_tmp;
+    // Just print it out
     for (GridMapIterator it(map); !it.isPastEnd(); ++it) {
         map.getPosition(*it, position_tmp);
         std::cout << count++ << ", " << position_tmp(0) << ", " << position_tmp(1) << std::endl;
@@ -65,11 +67,30 @@ int main(int argc, char** argv)
     Position center(0.0, 0.0);
     double radius = 0.4;
 
-//    Eigen::Isometry3d transform;
-//    transform.translation() = Eigen::Vector3d(0.0, 0.0, 0.0);
-//    transform.rotate(Eigen::Matrix3d::Identity());
-//    auto map2 = map.getTransformedMap(transform, "steppable", "map");
+    // https://eigen.tuxfamily.org/dox/classEigen_1_1Transform.html
+    // 40 deg. tilted
+    Eigen::Matrix4d tf_test = Eigen::Matrix4d::Identity();
+//    tf_test(0, 0) = 0.7660444; tf_test(0, 1) = 0.0; tf_test(0, 2) = -0.6427876;
+//    tf_test(1, 0) = 0.0;       tf_test(1, 1) = 1.0; tf_test(1, 2) = 0.0;
+//    tf_test(2, 0) = 0.6427876; tf_test(2, 1) = 1.0; tf_test(2, 2) = 0.7660444;
 
+    tf_test(0, 0) = 0.8660254; tf_test(0, 1) = -0.5;
+    tf_test(1, 0) = 0.5;       tf_test(1, 1) = 0.8660254;
+
+    Eigen::Matrix3d rot_mat = tf_test.block<3, 3>(0, 0);
+    Eigen::Isometry3d transform = Eigen::Isometry3d::Identity();
+    transform.translation() = Eigen::Vector3d(4.0, 2.0, 0);
+    transform.linear() = rot_mat;
+    std::cout << transform.matrix() << std::endl;
+    auto map_tf = map.getTransformedMap(transform, "steppable", "map", 0.0);
+    std::cout << map.getPosition() << std::endl;
+    ROS_INFO("Created map with size %f x %f m (%i x %i cells).",
+             map_tf.getLength().x(), map_tf.getLength().y(),
+             map_tf.getSize()(0), map_tf.getSize()(1));
+    for (GridMapIterator it(map_tf); !it.isPastEnd(); ++it) {
+        map_tf.getPosition(*it, position_tmp);
+        std::cout << count++ << ", " << position_tmp(0) << ", " << position_tmp(1) << std::endl;
+    }
     while (nh.ok()) {
 //        for (grid_map::CircleIterator iterator(map, center, radius);
 //             !iterator.isPastEnd(); ++iterator) {
@@ -87,10 +108,12 @@ int main(int argc, char** argv)
         // Publish grid map.
         ros::Time time = ros::Time::now();
         map.setTimestamp(time.toNSec());
-        grid_map_msgs::GridMap message;
+        grid_map_msgs::GridMap message, message_tf;
         GridMapRosConverter::toMessage(map, message);
+        GridMapRosConverter::toMessage(map_tf, message_tf);
         publisher.publish(message);
-        ROS_INFO_THROTTLE(1.0, "Grid map (timestamp %f) published.", message.info.header.stamp.toSec());
+        TransformedPublisher.publish(message_tf);
+//        ROS_INFO_THROTTLE(1.0, "Grid map (timestamp %f) published.", message.info.header.stamp.toSec());
 
         // Wait for next cycle.
         rate.sleep();
